@@ -104,19 +104,26 @@ ggplot(data = data_set, mapping = aes(x = YEAR, y = AVG_READING_8_SCORE, color =
 
 ---
 # Exploring DC Data
+
 ```{r echo = FALSE}
 DC_data <- data_set %>%
     filter(STATE == 'DISTRICT_OF_COLUMBIA')
 #DC_data
 ```
-
-```{r}
+.pull-left[
+```{r echo = FALSE, warning = FALSE}
 ggplot(data = DC_data, mapping = aes(x = YEAR, y = AVG_READING_8_SCORE)) +
   geom_point(color = 'red') + 
   labs(title = 'Average 8th Grade Reading Scores by Year District of Columbia', x = 'Year', y = 'Average 8th Grade Reading Score')
 ```
-
-
+]
+.pull-right[
+```{r echo = FALSE, warning = FALSE}
+ggplot(data = DC_data, mapping = aes(x = YEAR, y = TOTAL_REVENUE)) +
+  geom_point(color = 'blue') +
+  labs(title = 'Total Revenue by Year District of Columbia', x = 'Year', y = 'Total Revenue')
+```
+]
 
 ---
 
