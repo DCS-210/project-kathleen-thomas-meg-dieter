@@ -1,8 +1,8 @@
 ---
 title: "Presentation title"
 subtitle: "Presentation subtitle (if any)"
-author: "Team name <br> Names of team members"
-institute: "University of Edinburgh"
+author: "Thomas, Kathleen, Dieter, Meg"
+institute: "Bates College"
 date: "`r Sys.Date()`"
 output:
   xaringan::moon_reader:
@@ -22,6 +22,13 @@ library(tidymodels)
 library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
+
+#install.packages("maps")
+#install.packages("corrplot")
+library(maps)
+library(ggplot2)
+library(tidyverse)
+library(corrplot)
 ```
 
 ```{r setup, include=FALSE}
@@ -30,12 +37,12 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 ```
 
 ```{r load-data, include=FALSE}
-# Load your data here
+data_set <- read.csv('data/states_all.csv')
 ```
 
 ```{r}
 style_xaringan(
-  title_slide_background_image = "img/confetti.jpg"
+  title_slide_background_image = "img/empty_desks.jpeg"
 )
 ```
 
@@ -48,7 +55,7 @@ class: center, middle
 
 class: inverse, center, middle
 
-# Section title
+# How do Economic Factors Influence Test Scores?
 
 ---
 
