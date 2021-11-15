@@ -43,33 +43,44 @@ class: center, middle
 
 class: inverse, center, middle
 
-# Section title
+# How do Economic Factors Influence Test Scores?
 
 ---
 
-# Hello World
+# Preliminary Exploration
 
-- Click the `Knit` button to compile your presentation
+- The dataset we are using comes from U.S Education Datasets Unification project. This project seaks to combine multiple facets of U.S Education into one dataset.
+- We make use of a correlation matrix in order to guide our preliminary exploration of the data.
+- A correlation matrix allows us to quickly visualize the correlation coefficients between the variables in our dataset. 
+- 1 indicates a perfectly negative linear correlation between two variables.
+- 0 indicates no linear correlation between two variables.
+- 1 indicates a perfectly positive linear correlation between two variables.
+---
+# Correlation Matrix
+.pull-left[
 
-- Make sure to commit and push all resulting files to your GitHub repo
+```r
+test_data &lt;- data_set[,c(5,6,7,8,9,10,11,21,22,23)]
+res &lt;- cor(test_data, use = "complete.obs")
+#round(res, 2)
+```
+]
+.pull-right[
+&lt;img src="presentation_files/figure-html/unnamed-chunk-3-1.png" width="80%" /&gt;
+]
+
+---
+# How have Test Scores Changed Over the Years?
+Despite considerable debate about their efficacy, standardized test scores continue to serve as the primary metric in assessing students and overall education system performance. 
+
+Reachers at the Fordham Institue cite three main reasons for their continued use:
+- Objectivity
+- Comparability
+- Accountability
 
 ---
 
-class: inverse, middle, center
-
-# Using xaringan
-
----
-
-# xaringan
-
-- The presentation is created using the `xaringan` package
-
-- Use `---` to separate slides and `--` for incremental builds
-
---
-
-- Like this
+&lt;img src="presentation_files/figure-html/unnamed-chunk-4-1.png" width="80%" /&gt;
 
 ---
 
@@ -96,31 +107,6 @@ or text in two columns `\(^*\)`
 # Code
 
 
-```r
-# a boring regression
-model &lt;- lm(dist ~ speed, data = cars)
-tidy(model)
-```
-
-```
-## # A tibble: 2 × 5
-##   term        estimate std.error statistic  p.value
-##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-## 1 (Intercept)   -17.6      6.76      -2.60 1.23e- 2
-## 2 speed           3.93     0.416      9.46 1.49e-12
-```
-
-```r
-glance(model)
-```
-
-```
-## # A tibble: 1 × 12
-##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
-##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1     0.651         0.644  15.4      89.6 1.49e-12     1  -207.  419.  425.
-## # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;
-```
 
 ---
 
@@ -139,7 +125,7 @@ glance(model)
 - goes here
 ]
 .pull-right[
-&lt;img src="presentation_files/figure-html/unnamed-chunk-2-1.png" width="100%" /&gt;
+&lt;img src="presentation_files/figure-html/unnamed-chunk-5-1.png" width="100%" /&gt;
 ]
 
 ---
