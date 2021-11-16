@@ -57,5 +57,8 @@ aggregate(life_expect,list(state), mean) # mean life expectancy per state
 
 Within our data analysis, we will be using the high school graduation rate will be our explanatory variable and life expectancy will be our response variable. We will also be analyzing how data collected pertaining to different racial groups provides more insight into how populations are effected in different levels of severity. We will be using a variety of statistical methods to visualize this data including scatter plots with layered linear regressions, bar plots, and correlation matrices. This methods will helps us visualize the data and allow us to see any trends or other important information. We also hope to use the map functions within ggplot2 to provide geographic visualizations of the data we collect, which may result in conclusions about different regions of the United States. These statistical methods will ideally result in a clear correlation between the life expectancy and high school graduation rate in these states.
 
+```{r}
+
+```
 
 
