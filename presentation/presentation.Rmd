@@ -1,6 +1,5 @@
 ---
-title: "Presentation title"
-subtitle: "Presentation subtitle (if any)"
+title: "Analysis of Education Expenditure and Standardized Test Scores"
 author: "Thomas, Kathleen, Dieter, Meg"
 institute: "Bates College"
 date: "`r Sys.Date()`"
