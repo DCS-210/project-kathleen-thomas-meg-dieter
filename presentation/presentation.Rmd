@@ -24,6 +24,7 @@ library(knitr)
 library(xaringanthemer)
 ```
 
+
 ```{r setup, include=FALSE}
 # For better figure resolution
 knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618, out.width = "80%")
