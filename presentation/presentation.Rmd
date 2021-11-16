@@ -46,10 +46,19 @@ style_xaringan(
 )
 ```
 
+---
 
 class: center, middle
 
-## A statement of the overall goal / research question
+## Our Goals and Research Questions
+
+We aim to produce analyses that are informative of the relationship between test scores and expenditure on a national and state level. 
+
+Is there a notable relationship between expenditure and test scores?
+
+Does expenditure per student raise test scores?
+
+Do different kinds or sources of expenditure vary in effectiveness of improving performance?
 
 ---
 
