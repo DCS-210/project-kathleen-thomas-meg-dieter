@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Presentation title</title>
+    <title>Analysis of Education Expenditure and Standardized Test Scores</title>
     <meta charset="utf-8" />
+<<<<<<< HEAD
     <meta name="author" content="Team name   Names of team members" />
     <meta name="date" content="2021-11-10" />
+=======
+    <meta name="author" content="Thomas, Kathleen, Dieter, Meg" />
+    <meta name="date" content="2021-11-16" />
+>>>>>>> 059903cb826bbc29d16c2cc25f2a6e2d0bf5ed79
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -12,11 +17,18 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+<<<<<<< HEAD
 # Presentation title
 ## Presentation subtitle (if any)
 ### Team name <br> Names of team members
 ### University of Edinburgh
 ### 2021-11-10
+=======
+# Analysis of Education Expenditure and Standardized Test Scores
+### Thomas, Kathleen, Dieter, Meg
+### Bates College
+### 2021-11-16
+>>>>>>> 059903cb826bbc29d16c2cc25f2a6e2d0bf5ed79
 
 ---
 
@@ -28,71 +40,56 @@ class: center, middle, inverse, title-slide
 
 
 
-```r
-style_xaringan(
-  title_slide_background_image = "img/confetti.jpg"
-)
-```
 
+---
 
 class: center, middle
 
-## A statement of the overall goal / research question
+## Our Goals and Research Questions
+
+We aim to produce analyses that are informative of the relationship between test scores and expenditure on a national and state level. 
+
+Is there a notable relationship between expenditure and test scores?
+
+Does expenditure per student raise test scores?
+
+Do different kinds or sources of expenditure vary in effectiveness of improving performance?
 
 ---
 
 class: inverse, center, middle
 
-# Section title
+# How do Economic Factors Influence Test Scores?
 
 ---
 
-# Hello World
+# Preliminary Exploration
 
-- Click the `Knit` button to compile your presentation
-
-- Make sure to commit and push all resulting files to your GitHub repo
-
+- The dataset we are using comes from U.S Education Datasets Unification project. This project seaks to combine multiple facets of U.S Education into one dataset.
+- We make use of a correlation matrix in order to guide our preliminary exploration of the data.
+- A correlation matrix allows us to quickly visualize the correlation coefficients between the variables in our dataset. 
+- 1 indicates a perfectly negative linear correlation between two variables.
+- 0 indicates no linear correlation between two variables.
+- 1 indicates a perfectly positive linear correlation between two variables.
 ---
-
-class: inverse, middle, center
-
-# Using xaringan
-
----
-
-# xaringan
-
-- The presentation is created using the `xaringan` package
-
-- Use `---` to separate slides and `--` for incremental builds
-
---
-
-- Like this
-
----
-
-# Layouts
-
-You can use plain text
-
-- or bullet points
-
+# Correlation Matrix
 .pull-left[
-or text in two columns `\(^*\)`
+
+```r
+test_data &lt;- data_set[,c(5,6,7,8,9,10,11,21,22,23)]
+res &lt;- cor(test_data, use = "complete.obs")
+#round(res, 2)
+```
 ]
 .pull-right[
-- like
-- this
-]
-
-.footnote[
-[*] And add footnotes
+&lt;img src="presentation_files/figure-html/unnamed-chunk-3-1.png" width="80%" /&gt;
 ]
 
 ---
+# How have Test Scores Changed Over the Years?
+Despite considerable debate about their efficacy, standardized test scores continue to serve as the primary metric in assessing students and overall education system performance. 
 
+<<<<<<< HEAD
 # Code
 
 
@@ -121,136 +118,73 @@ glance(model)
 ## 1     0.651         0.644  15.4      89.6 1.49e-12     1  -207.  419.  425.
 ## # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;
 ```
+=======
+Reachers at the Fordham Institue cite three main reasons for their continued use:
+- Objectivity
+- Comparability
+- Accountability
+>>>>>>> 059903cb826bbc29d16c2cc25f2a6e2d0bf5ed79
 
 ---
 
-# Plots
-
-
-
-&lt;img src="presentation_files/figure-html/plot-iris-1.png" width="80%" /&gt;
+&lt;img src="presentation_files/figure-html/unnamed-chunk-4-1.png" width="80%" /&gt;
 
 ---
+# Is There a Correlation Between Test Scores and School Revenue? 
+### An in depth look at DC's Data
 
-## Plot and text
 
 .pull-left[
-- Some text
-- goes here
+&lt;img src="presentation_files/figure-html/unnamed-chunk-6-1.png" width="80%" /&gt;
 ]
 .pull-right[
-&lt;img src="presentation_files/figure-html/unnamed-chunk-2-1.png" width="100%" /&gt;
+&lt;img src="presentation_files/figure-html/unnamed-chunk-7-1.png" width="80%" /&gt;
 ]
 
 ---
+&lt;img src="presentation_files/figure-html/unnamed-chunk-8-1.png" width="80%" /&gt;
 
-# Tables
-
-If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
-
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:right;"&gt; Sepal.Length &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Sepal.Width &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Petal.Length &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Petal.Width &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt; Species &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 5.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3.5 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.4 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 4.9 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.4 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 4.7 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3.2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.3 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 4.6 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.5 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 5.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3.6 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.4 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 5.4 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3.9 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.7 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.4 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 
 ---
+# Does Increased Spending Influence Test Scores?
+### Creating the Expenditure per Student Variable
+- Expenditure per student is calculated by dividing the total education expenditure of a state by the total number of students enrolled in its schools.
+- We find that the average expenditure per student, denoted by "NATIONAL", is $13,114 annually. 
 
-# Images
 
-&lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="https://images.unsplash.com/photo-1535448033526-c0e85c9e6968?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1650&amp;q=80" alt="Image credit: Photo by Jörg Angeli on Unsplash." width="60%" /&gt;
-&lt;p class="caption"&gt;Image credit: Photo by Jörg Angeli on Unsplash.&lt;/p&gt;
-&lt;/div&gt;
+```r
+stats_percap = data_set %&gt;% 
+  group_by(STATE) %&gt;% 
+  summarise(enroll = mean(ENROLL, na.rm=TRUE), expenditure = mean(TOTAL_EXPENDITURE, na.rm=TRUE), 
+            AVG_MATH_8_NO_NA = mean(AVG_MATH_8_SCORE, na.rm=TRUE), AVG_READ_8_NO_NA = mean(AVG_READING_8_SCORE, na.rm=TRUE)) %&gt;%
+  mutate(enroll = enroll * 1e-6, expenditure = expenditure * 1e-6)
 
-Or you can also include a full page image. See next slide.
-
----
-
-background-image: url(https://images.unsplash.com/photo-1535448033526-c0e85c9e6968?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1650&amp;q=80)
-
----
-
-# Math Expressions
-
-You can write LaTeX math expressions inside a pair of dollar signs, e.g. &amp;#36;\alpha+\beta$ renders `\(\alpha+\beta\)`. You can use the display style with double dollar signs:
-
-```
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
+stats_percap$expenditure_per_student = stats_percap$expenditure / stats_percap$enroll
 ```
 
-`$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$`
 
-Limitations:
+---
 
-1. The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
 
-1. There should not be spaces after the opening `$` or before the closing `$`.
+&lt;img src="presentation_files/figure-html/unnamed-chunk-11-1.png" width="80%" /&gt;
 
-1. Math does not work on the title slide (see [#61](https://github.com/yihui/xaringan/issues/61) for a workaround).
+---
+
+
+&lt;img src="presentation_files/figure-html/unnamed-chunk-13-1.png" width="80%" /&gt;
+
+
+---
+
+
+---
+
+
+---
 
 ---
 
 # Feeling adventurous?
-
-- Want to find out more about `xaringan`? See https://slides.yihui.name/xaringan/#1.
-
-- You are welcomed to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
-
-- But some of you might want to play around with slide styling. The 
-`xaringanthemer` provides some solutions for this that: https://pkg.garrickadenbuie.com/xaringanthemer.
-
-- And if you want more bells and whistles, there is also `xaringanExtra`: https://pkg.garrickadenbuie.com/xaringanExtra.
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

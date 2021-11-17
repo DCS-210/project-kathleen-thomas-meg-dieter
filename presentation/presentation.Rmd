@@ -1,8 +1,7 @@
 ---
-title: "Presentation title"
-subtitle: "Presentation subtitle (if any)"
-author: "Team name <br> Names of team members"
-institute: "University of Edinburgh"
+title: "Analysis of Education Expenditure and Standardized Test Scores"
+author: "Thomas, Kathleen, Dieter, Meg"
+institute: "Bates College"
 date: "`r Sys.Date()`"
 output:
   xaringan::moon_reader:
@@ -22,6 +21,13 @@ library(tidymodels)
 library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
+
+#install.packages("maps")
+#install.packages("corrplot")
+library(maps)
+library(ggplot2)
+library(tidyverse)
+library(corrplot)
 ```
 
 
@@ -31,174 +37,172 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 ```
 
 ```{r load-data, include=FALSE}
-# Load your data here
+data_set <- read.csv('data/states_all.csv')
 ```
 
-```{r}
+```{r echo = FALSE}
 style_xaringan(
-  title_slide_background_image = "img/confetti.jpg"
+  title_slide_background_image = "img/blackboard.jpg"
 )
 ```
 
+---
 
 class: center, middle
 
-## A statement of the overall goal / research question
+## Our Goals and Research Questions
+
+We aim to produce analyses that are informative of the relationship between test scores and expenditure on a national and state level. 
+
+Is there a notable relationship between expenditure and test scores?
+
+Does expenditure per student raise test scores?
+
+Do different kinds or sources of expenditure vary in effectiveness of improving performance?
 
 ---
 
 class: inverse, center, middle
 
-# Section title
+# How do Economic Factors Influence Test Scores?
 
 ---
 
-# Hello World
+# Preliminary Exploration
 
-- Click the `Knit` button to compile your presentation
-
-- Make sure to commit and push all resulting files to your GitHub repo
-
+- The dataset we are using comes from U.S Education Datasets Unification project. This project seaks to combine multiple facets of U.S Education into one dataset.
+- We make use of a correlation matrix in order to guide our preliminary exploration of the data.
+- A correlation matrix allows us to quickly visualize the correlation coefficients between the variables in our dataset. 
+- 1 indicates a perfectly negative linear correlation between two variables.
+- 0 indicates no linear correlation between two variables.
+- 1 indicates a perfectly positive linear correlation between two variables.
 ---
-
-class: inverse, middle, center
-
-# Using xaringan
-
----
-
-# xaringan
-
-- The presentation is created using the `xaringan` package
-
-- Use `---` to separate slides and `--` for incremental builds
-
---
-
-- Like this
-
----
-
-# Layouts
-
-You can use plain text
-
-- or bullet points
-
+# Correlation Matrix
 .pull-left[
-or text in two columns $^*$
+```{r}
+test_data <- data_set[,c(5,6,7,8,9,10,11,21,22,23)]
+res <- cor(test_data, use = "complete.obs")
+#round(res, 2)
+```
 ]
 .pull-right[
-- like
-- this
-]
-
-.footnote[
-[*] And add footnotes
+```{r, echo = FALSE}
+corrplot(res, type = "upper", order = "hclust", 
+         tl.col = "black", tl.srt = 45, tl.cex = .6)
+```
 ]
 
 ---
+# How have Test Scores Changed Over the Years?
+Despite considerable debate about their efficacy, standardized test scores continue to serve as the primary metric in assessing students and overall education system performance. 
 
-# Code
-
-```{r boring-regression}
-# a boring regression
-model <- lm(dist ~ speed, data = cars)
-tidy(model)
-glance(model)
-```
+Reachers at the Fordham Institue cite three main reasons for their continued use:
+- Objectivity
+- Comparability
+- Accountability
 
 ---
 
-# Plots
-
-```{r recode-species, echo = FALSE}
-# In this chunk I'm doing a bunch of analysis that I don't want to present 
-# in my slides. But I need the resulting data frame for a plot I want to present.
-iris_modified <- iris %>%
-  mutate(Species = fct_other(Species, keep = "setosa"))
-```
-
-```{r plot-iris, echo = FALSE}
-# Code hidden with echo = FALSE
-# Uses modified iris dataset from previous chunk
-# Play around with height and width until you're happy with the look
-ggplot(data = iris_modified, mapping = aes(x = Sepal.Width, y = Sepal.Length, color = Species)) +
+```{r echo = FALSE, warning = FALSE}
+ggplot(data = data_set, mapping = aes(x = YEAR, y = AVG_READING_8_SCORE, color = STATE)) +
   geom_point() + 
-  theme_minimal() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
+  labs(title = 'State Average Reading Scores by Year', x = 'Year', y = 'Average 8th Grade Reading Score') + 
+  theme(legend.title = element_text(size = 3), 
+               legend.text = element_text(size = 3))
 ```
 
 ---
+# Is There a Correlation Between Test Scores and School Revenue? 
+### An in depth look at DC's Data
 
-## Plot and text
-
+```{r echo = FALSE}
+DC_data <- data_set %>%
+    filter(STATE == 'DISTRICT_OF_COLUMBIA')
+#DC_data
+```
 .pull-left[
-- Some text
-- goes here
+```{r echo = FALSE, warning = FALSE}
+ggplot(data = DC_data, mapping = aes(x = YEAR, y = AVG_READING_8_SCORE)) +
+  geom_point(color = 'red') + 
+  labs(title = 'Average 8th Grade Reading Scores by Year District of Columbia', x = 'Year', y = 'Average 8th Grade Reading Score')
+```
 ]
 .pull-right[
-```{r warning=FALSE, out.width="100%", fig.width=4, echo=FALSE}
-# see how I changed out.width and fig.width from defaults
-# to make the figure bigger
-ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
-  geom_boxplot() +
-  theme_minimal()
+```{r echo = FALSE, warning = FALSE}
+ggplot(data = DC_data, mapping = aes(x = YEAR, y = TOTAL_REVENUE)) +
+  geom_point(color = 'blue') +
+  labs(title = 'Total Revenue by Year District of Columbia', x = 'Year', y = 'Total Revenue')
 ```
 ]
 
 ---
+```{r echo = FALSE, warning = FALSE, message = FALSE}
+ggplot(data = DC_data, mapping = aes(x = TOTAL_REVENUE, y = AVG_READING_8_SCORE)) + 
+  geom_point() +
+  geom_smooth(method = "lm", 
+              se = FALSE, colour = "#FFA500")  +
+  labs(
+    title = "Total Revenue Vs. 8th Grade Reading Score Average",
+    x = "Total Revenue",
+    y = "8th Grade Reading Score Average")
+```
 
-# Tables
 
-If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
+---
+# Does Increased Spending Influence Test Scores?
+### Creating the Expenditure per Student Variable
+- Expenditure per student is calculated by dividing the total education expenditure of a state by the total number of students enrolled in its schools.
+- We find that the average expenditure per student, denoted by "NATIONAL", is $13,114 annually. 
 
-```{r iris-table, echo = FALSE}
-kable(head(iris), format = "html")
+```{r}
+stats_percap = data_set %>% 
+  group_by(STATE) %>% 
+  summarise(enroll = mean(ENROLL, na.rm=TRUE), expenditure = mean(TOTAL_EXPENDITURE, na.rm=TRUE), 
+            AVG_MATH_8_NO_NA = mean(AVG_MATH_8_SCORE, na.rm=TRUE), AVG_READ_8_NO_NA = mean(AVG_READING_8_SCORE, na.rm=TRUE)) %>%
+  mutate(enroll = enroll * 1e-6, expenditure = expenditure * 1e-6)
+
+stats_percap$expenditure_per_student = stats_percap$expenditure / stats_percap$enroll
+```
+
+
+---
+```{r echo = FALSE}
+data_2015 <- data_set %>%
+  filter(YEAR == 2015)
+```
+
+```{r echo=FALSE, warning = FALSE}
+ggplot(data=stats_percap, aes(x=expenditure_per_student, y=AVG_READ_8_NO_NA)) +
+geom_smooth(formula = 'y ~ x', method = 'loess') +
+geom_text(label=data_2015$STATE, col="magenta", check_overlap = TRUE) +
+  labs(x = 'Expenditure Per Student in Thousands', y = 'Average 8th Grade Reading Score', title = 'Expenditure Per Student Vs. Average 8th Grade Reading Score')
+
 ```
 
 ---
-
-# Images
-
-```{r castle, echo = FALSE, out.width = "60%", fig.align = "center", fig.cap = "Image credit: Photo by Jörg Angeli on Unsplash."}
-include_graphics("https://images.unsplash.com/photo-1535448033526-c0e85c9e6968?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80")
+```{r echo = FALSE}
+data_noDC <- stats_percap %>%
+  filter(STATE != 'DISTRICT_OF_COLUMBIA')
 ```
 
-Or you can also include a full page image. See next slide.
+```{r echo = FALSE, warning = FALSE}
+data_2015_noDC <- data_set %>%
+  filter(YEAR == 2015 & STATE != 'DISTRICT_OF_COLUMBIA')
+ggplot(data=data_noDC, aes(x=expenditure_per_student, y=AVG_READ_8_NO_NA)) +
+geom_smooth(formula = 'y ~ x', method = 'loess') +
+geom_text(label=data_2015_noDC$STATE, col="magenta", check_overlap = TRUE) +
+  labs(x = 'Expenditure Per Student in Thousands', y = 'Average 8th Grade Reading Score', title = 'Expenditure Per Student Vs. Average 8th Grade Reading Score')
+```
+
 
 ---
 
-background-image: url(https://images.unsplash.com/photo-1535448033526-c0e85c9e6968?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80)
 
 ---
 
-# Math Expressions
 
-You can write LaTeX math expressions inside a pair of dollar signs, e.g. &#36;\alpha+\beta$ renders $\alpha+\beta$. You can use the display style with double dollar signs:
-
-```
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-```
-
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-
-Limitations:
-
-1. The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
-
-1. There should not be spaces after the opening `$` or before the closing `$`.
-
-1. Math does not work on the title slide (see [#61](https://github.com/yihui/xaringan/issues/61) for a workaround).
+---
 
 ---
 
 # Feeling adventurous?
-
-- Want to find out more about `xaringan`? See https://slides.yihui.name/xaringan/#1.
-
-- You are welcomed to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
-
-- But some of you might want to play around with slide styling. The 
-`xaringanthemer` provides some solutions for this that: https://pkg.garrickadenbuie.com/xaringanthemer.
-
-- And if you want more bells and whistles, there is also `xaringanExtra`: https://pkg.garrickadenbuie.com/xaringanExtra.
