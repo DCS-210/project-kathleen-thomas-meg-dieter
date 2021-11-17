@@ -4,7 +4,7 @@
     <title>Analysis of Education Expenditure and Standardized Test Scores</title>
     <meta charset="utf-8" />
     <meta name="author" content="Thomas, Kathleen, Dieter, Meg" />
-    <meta name="date" content="2021-11-16" />
+    <meta name="date" content="2021-11-17" />
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -15,7 +15,7 @@ class: center, middle, inverse, title-slide
 # Analysis of Education Expenditure and Standardized Test Scores
 ### Thomas, Kathleen, Dieter, Meg
 ### Bates College
-### 2021-11-16
+### 2021-11-17
 
 ---
 
@@ -62,11 +62,6 @@ class: inverse, center, middle
 # Correlation Matrix
 .pull-left[
 
-```r
-test_data &lt;- data_set[,c(5,6,7,8,9,10,11,21,22,23)]
-res &lt;- cor(test_data, use = "complete.obs")
-#round(res, 2)
-```
 ]
 .pull-right[
 &lt;img src="presentation_files/figure-html/unnamed-chunk-3-1.png" width="80%" /&gt;
@@ -108,15 +103,6 @@ Reachers at the Fordham Institue cite three main reasons for their continued use
 - We find that the average expenditure per student, denoted by "NATIONAL", is $13,114 annually. 
 
 
-```r
-stats_percap = data_set %&gt;% 
-  group_by(STATE) %&gt;% 
-  summarise(enroll = mean(ENROLL, na.rm=TRUE), expenditure = mean(TOTAL_EXPENDITURE, na.rm=TRUE), 
-            AVG_MATH_8_NO_NA = mean(AVG_MATH_8_SCORE, na.rm=TRUE), AVG_READ_8_NO_NA = mean(AVG_READING_8_SCORE, na.rm=TRUE)) %&gt;%
-  mutate(enroll = enroll * 1e-6, expenditure = expenditure * 1e-6)
-
-stats_percap$expenditure_per_student = stats_percap$expenditure / stats_percap$enroll
-```
 
 
 ---
@@ -133,14 +119,25 @@ stats_percap$expenditure_per_student = stats_percap$expenditure / stats_percap$e
 ---
 
 
----
+
+&lt;img src="presentation_files/figure-html/alabama-mass-revenue-1.png" width="80%" /&gt;
 
 
 ---
 
+
+
+---
+&lt;img src="presentation_files/figure-html/different-expenditures-1.png" width="80%" /&gt;
+
+&lt;img src="presentation_files/figure-html/instruction-expenditure-1.png" width="80%" /&gt;
+
+
 ---
 
-# Feeling adventurous?
+---
+
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
