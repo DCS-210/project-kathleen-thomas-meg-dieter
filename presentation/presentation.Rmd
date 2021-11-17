@@ -3,7 +3,7 @@ title: "Analysis of Education Expenditure and Standardized Test Scores"
 author: "Thomas, Kathleen, Dieter, Meg"
 institute: "Bates College"
 date: "`r Sys.Date()`"
-output:
+output: 
   xaringan::moon_reader:
     css: xaringan-themer.css
     lib_dir: libs
@@ -22,20 +22,20 @@ library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
 
-install.packages("maps")
-install.packages("corrplot")
+#install.packages("maps")
+#install.packages("corrplot")
 
 library(maps)
 library(ggplot2)
 library(tidyverse)
 library(corrplot)
-install.packages("leaflet")
+#install.packages("leaflet")
 library(leaflet)
-install.packages("geojsonio")
+#install.packages("geojsonio")
 library(geojsonio)
 library(sf)
 library(leaflet)
-install.packages("sf")
+#install.packages("sf")
 library(RColorBrewer)
 ```
 
@@ -85,6 +85,7 @@ class: inverse, center, middle
 - 1 indicates a perfectly negative linear correlation between two variables.
 - 0 indicates no linear correlation between two variables.
 - 1 indicates a perfectly positive linear correlation between two variables.
+
 ---
 # Correlation Matrix
 .pull-left[
@@ -188,7 +189,11 @@ geom_text(label=data_2015$STATE, col="magenta", check_overlap = TRUE) +
 
 ```
 
+
+
+
 ---
+
 ```{r echo = FALSE}
 data_noDC <- stats_percap %>%
   filter(STATE != 'DISTRICT_OF_COLUMBIA')
@@ -205,7 +210,52 @@ geom_text(label=data_2015_noDC$STATE, col="magenta", check_overlap = TRUE) +
 
 
 ---
-```{r}
+```{r echo = FALSE, warning = FALSE, message = FALSE}
+#different-expenditures
+ggplot(data = data_set %>% filter(YEAR == 2015)) +
+  geom_point(mapping = aes(x = SUPPORT_SERVICES_EXPENDITURE, 
+                           y = AVG_READING_8_SCORE, 
+                           color = STATE)) + 
+  labs(title = 'Support Services Expenditure and Average 8th Grade Reading Score', x = 'Support Services Expenditure', y = 'Average 8th Grade Reading Score') + 
+  theme(legend.title = element_text(size = 3), 
+               legend.text = element_text(size = 3))
+
+```
+---
+```{r echo = FALSE, warning = FALSE, message = FALSE}
+#instruction-expenditure
+ggplot(data = data_set %>% filter(YEAR == 2015)) +
+  geom_point(mapping = aes(x = INSTRUCTION_EXPENDITURE, 
+                           y = AVG_READING_8_SCORE, 
+                           color = STATE)) + 
+  labs(title = 'Instruction Expenditure and Average 8th Grade Reading Score', x = 'Instruction Expenditure', y = 'Average 8th Grade Reading Score') + 
+  theme(legend.title = element_text(size = 3), 
+               legend.text = element_text(size = 3))
+```
+
+---
+
+```{r echo = FALSE, warning = FALSE,message=FALSE}
+AL_MA_data <- data_set %>%
+  filter(STATE == c('ALABAMA', 'MASSACHUSETTS'))
+```
+
+```{r echo = FALSE, warning = FALSE, message=FALSE}
+ggplot(data = AL_MA_data) + 
+  geom_line(mapping = aes(x = YEAR, y = STATE_REVENUE, color = STATE)) +
+  labs(
+    x = "Year",
+    y = "State Revenue",
+    title = "State Revenue",
+    subtitle = "Alabama and Massachusetts") +
+ guides(col=guide_legend("State"))
+```
+
+
+---
+
+
+```{r echo = FALSE, warning = FALSE, message = FALSE}
 states <- geojsonio::geojson_read(x = "https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json"
         , what = "sp")
 class(states)
@@ -214,7 +264,7 @@ library(readr)
 states_all <- read_csv("../data/states_all.csv")
 ```
 
-```{r}
+```{r echo = FALSE, warning = FALSE, message = FALSE}
 states_all <- states_all %>%
   mutate(name = str_to_lower(str_replace_all(STATE, pattern = "_", replacement = " ")))
 
@@ -236,13 +286,13 @@ pal <- colorBin("Spectral", domain = state_total_exp$total_exp_per_student, bins
 
 ```
 
-```{r}
+```{r echo = FALSE, warning = FALSE, message = FALSE}
 labels <- sprintf("<strong>%s</strong><br/>%g proportion expenditure/student",
                   state_total_exp$name, state_total_exp$total_exp_per_student) %>% lapply(htmltools::HTML)
 
 ```
 
-```{r}
+```{r echo = FALSE, warning = FALSE, message = FALSE}
 state_total_exp %>%
   group_by(STATE) %>%
   mutate(median_exp_per_student = median(total_exp_per_student, na.rm = TRUE)) %>%
@@ -259,7 +309,7 @@ leaflet() %>%
               weight = 1,
               label = labels) %>%
   addLegend(
-    position = "bottomright",
+    position = "topright",
     pal = pal,
     values = ~median_exp_per_student,
     title = "Median yearly total expenditure per student",
@@ -269,9 +319,54 @@ leaflet() %>%
 
 ---
 
+```{r echo = FALSE}
 
----
+state_avg_scores <- states_all%>%
+  left_join(states,by="name")%>%
+  st_as_sf()
 
----
+state_avg_scores <- state_avg_scores %>%
+  filter(YEAR ==2015)%>%
+  mutate(state_avg_scores_students = AVG_MATH_8_SCORE)
+pal <- colorNumeric("Oranges", domain = state_avg_scores$state_avg_scores_students)
 
-# Feeling adventurous?
+
+
+```
+
+```{r echo = FALSE}
+labels <- sprintf("<strong>%s</strong><br/>%g Average Test Score", 
+                  state_avg_scores$name, state_avg_scores$state_avg_scores_students) %>% lapply(htmltools::HTML)
+```
+
+```{r echo = FALSE, warning = FALSE, message = FALSE}
+state_avg_scores%>%
+  group_by(STATE) %>%
+  mutate(median_score_per_student = median(state_avg_scores_students, na.rm = TRUE)) %>%
+  filter(YEAR == 2015) %>%
+leaflet() %>%
+  addTiles()%>%
+  setView(lng = -80,
+          lat = 34.5,
+          zoom = 4) %>%
+  addPolygons(fillColor = ~pal(median_score_per_student),
+              fillOpacity = 1,
+              color = "blue",
+              opacity = 1,
+              weight = 1,
+              highlight = highlightOptions(
+                weight = 3,
+                color = "blue",
+                fillOpacity = .2,
+                bringToFront = TRUE),
+              label = labels) %>%
+  addLegend(
+    position = "topright",
+    pal = pal,
+    values = ~median_score_per_student,
+    title = "Median yearly Average Math Score per state",
+    opacity = 1)
+
+```
+
+
