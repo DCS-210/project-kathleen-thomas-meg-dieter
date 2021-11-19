@@ -14,7 +14,6 @@ output: html_document
 
 ## Data Set Overview
 
-
 ```{r}
 #install.packages("dplyr")
 library(tidyverse)
@@ -23,10 +22,10 @@ library(tidyverse)
 
 
 
+## Data Analysis Plan
+
 ## Works Cited
 
 
-
-## Data Analysis Plan
 
 
