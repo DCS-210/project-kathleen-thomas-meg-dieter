@@ -29,9 +29,33 @@ glimpse(states_all)
 
 ## Data Analysis Plan
 
-  The goal of our data analysis project to analyze the relationship between state expenditure and average test scores in the U.S. by analyzing the correlation between several different facets of U.S. education included in our data set. Within our data analysis, we will be using total expenditure per state as our explanatory variable and average test scores as our response variable. We will be using a variety of statistical methods to visualize the relationships between our data including correlation matrices, scatter plots with layered linear regressions, and maps. The statistical analysis that we run will hopefully give insight into the relationship between expenditure, revenue, and standardized test scores in the United States. Our hypothesis is that there will be a positive correlation between total expenditure and average test scores, as seen by an increase in total expenditure correlated with a direct increase in average test scores.
-
-  The correlation matrix will allow us to determine the correlation coefficients between the variables in our data set, which will give insight as to which variables are positively or negatively correlated. We will then take a closer look to some specific states that were highest and lowest on the average grade spectrum to see how specific facets of the total expenditure were different. This will allow us to analyze if specific aspects of total expenditure affect average grades more than others do. Two maps will be created displaying total expenditure per student and average test scores in the United States. These maps will provide a useful visualization of the distribution of the two main variables we are comparing in our data analysis, and can be used to further explain some of the linear correlations that were determined in the correlation matrix. In order to support our hypothesis that total expenditure and average test score have a positive linear correlation, we should be able to see a positive linear correlation in the correlation matrix, a positive linear relationship in the plots of total expenditure vs. average grade scores, and a positive correlation between the 2 variables as shown on the maps. 
+  The goal of our data analysis project to analyze the relationship between state expenditure and average test scores in the U.S. by analyzing the correlation between several different facets of U.S. education included in our data set. Within our data analysis, we will be using total expenditure per state as our explanatory variable and average test scores as our response variable. We will be using a variety of statistical methods to visualize the relationships between our data including correlation matrices, scatter plots with layered linear regressions, and maps. The statistical analysis that we run will hopefully give insight into the relationship between expenditure, revenue, and standardized test scores in the United States. 
+  Our hypothesis is that there will be a positive correlation between expenditures or revenues and average test scores, as seen by an increase in expenditure or revenue correlated with a direct increase in average test scores. The correlation matrix will allow us to determine the correlation coefficients between the variables in our data set, which will give insight as to which variables are positively or negatively correlated. We will then take a closer look to some specific states that were highest and lowest on the average grade spectrum to see how specific facets of the total expenditure were different. This will allow us to analyze if specific aspects of total expenditure affect average grades more than others do. Our correlation matrix below shows that there are no perfect linear correlations between expenditures/revenues and test scores. We hope to find other possible relationships between the variables that provide insight into this data, possibly utilizing data specific to certain states and locations.
+  
+```{r, echo = FALSE}
+test_data <- data_set[,c(5,6,7,8,9,10,11,21,22,23)]
+res <- cor(test_data, use = "complete.obs")
+#round(res, 2)
+```
+  
+```{r, echo = FALSE}
+corrplot(res, type = "upper", order = "hclust", 
+         tl.col = "black", tl.srt = 45, tl.cex = .6)
+```
+  
+  Our plot below of the state average reading scores by year gives us an idea how where states fall in literacy success, which we will explore further by narrowing in on certain locations with higher and lower scores, utilizing expenditure and revenue to find a correlation to academic success. The yellow dots along the bottom of the graph represent Washington D.C., which is a city we will be looking into further in hopes of understanding why the city's reading scores are consistently lower than other locations. 
+  
+  
+```{r echo = FALSE, warning = FALSE}
+ggplot(data = data_set, mapping = aes(x = YEAR, y = AVG_READING_8_SCORE, color = STATE)) +
+  geom_point() + 
+  labs(title = 'State Average Reading Scores by Year', x = 'Year', y = 'Average 8th Grade Reading Score') + 
+  theme(legend.title = element_text(size = 3), 
+               legend.text = element_text(size = 3))
+```
+ 
+ 
+  Two maps will be created displaying total expenditure per student and average test scores in the United States. These maps will provide a useful visualization of the distribution of the two main variables we are comparing in our data analysis, and can be used to further explain some of the linear correlations that were determined in the correlation matrix. In order to support our hypothesis that total expenditure and average test score have a positive linear correlation, we should be able to see a positive linear correlation in the correlation matrix, a positive linear relationship in the plots of total expenditure vs. average grade scores, and a positive correlation between the 2 variables as shown on the maps. 
 
   The conclusions we are able to draw from our data analysis will also provide insight into future data analysis that is needed to conduct a more holistic analysis of the ways in which student performance and average grades are affected, apart from total state expenditure alone. 
 
