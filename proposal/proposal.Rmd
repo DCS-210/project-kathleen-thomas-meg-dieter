@@ -1,23 +1,41 @@
 ---
-title: "Project proposal"
-author: "Team name"
-output: github_document
+title: "Project Proposal"
+name: "Thomas, Kathleen, Dieter, Meg"
+date: "10/10/2021"
+output: html_document
 ---
 
-```{r load-packages, message = FALSE}
+## Introduction 
+
+  In this project, we aim to gauge the relationship between state revenue, education expenditure, and standardized test scores. We plan to narrow in on states and cities that present unique or helpful information, as well as the different kinds of expenditure used to support school systems and students. Our dataset is from Kaggle, titled "U.S. Education Datasets: Unification Project. This dataset is a compilation of K-12 financial data, enrollment, and achievement sourced from the U.S. Census Bureau, the National Center for Education Statistics, and The Nation's Report Card. The cases in this dataset are the students whose standardized test scores are being recorded, this data is collected annually by school districts nationwide and communicated to state and national education bureaus to keep track of yearly academic progress and shortcomings. 
+
+  The contextual variables involved in this dataset are the state the data pertains to, the year it was collected, and the number of kids enrolled in K-12 schooling in the given state. The revenue related variables include the state's total revenue (summary of federal, local, and state revenues), as well as individual variables for the state's federal revenue, the state's revenue, and the state's local revenue. Expenditure variables include instruction expenditure, support services expenditure, capital outlay expenditure, and other expenditure. We will be analyzing a few of these different kinds of spending in hopes of finding a specific kind of expenditure that proves to be more helpful in raising test scores. The assessment related variables come from results of the annually administered National Exam of Educational Progress. These include mean scores of 4th grade math tests, 8th grade math tests, 4 grade reading tests, and 8th grade reading tests. 
+
+
+## Data Set Overview
+
+```{r}
+#install.packages("dplyr")
 library(tidyverse)
-library(broom)
+library(tidymodels)
+library(palmerpenguins)
+library(knitr)
 ```
 
-## 1. Introduction
+```{r}
+glimpse(states_all)
+```
 
 
+## Data Analysis Plan
 
-## 2. Data
+  The goal of our data analysis project to analyze the relationship between state expenditure and average test scores in the U.S. by analyzing the correlation between several different facets of U.S. education included in our data set. Within our data analysis, we will be using total expenditure per state as our explanatory variable and average test scores as our response variable. We will be using a variety of statistical methods to visualize the relationships between our data including correlation matrices, scatter plots with layered linear regressions, and maps. The statistical analysis that we run will hopefully give insight into the relationship between expenditure, revenue, and standardized test scores in the United States. Our hypothesis is that there will be a positive correlation between total expenditure and average test scores, as seen by an increase in total expenditure correlated with a direct increase in average test scores.
 
+  The correlation matrix will allow us to determine the correlation coefficients between the variables in our data set, which will give insight as to which variables are positively or negatively correlated. We will then take a closer look to some specific states that were highest and lowest on the average grade spectrum to see how specific facets of the total expenditure were different. This will allow us to analyze if specific aspects of total expenditure affect average grades more than others do. Two maps will be created displaying total expenditure per student and average test scores in the United States. These maps will provide a useful visualization of the distribution of the two main variables we are comparing in our data analysis, and can be used to further explain some of the linear correlations that were determined in the correlation matrix. In order to support our hypothesis that total expenditure and average test score have a positive linear correlation, we should be able to see a positive linear correlation in the correlation matrix, a positive linear relationship in the plots of total expenditure vs. average grade scores, and a positive correlation between the 2 variables as shown on the maps. 
 
+  The conclusions we are able to draw from our data analysis will also provide insight into future data analysis that is needed to conduct a more holistic analysis of the ways in which student performance and average grades are affected, apart from total state expenditure alone. 
 
-## 3. Data analysis plan
+## Works Cited
 
-
+Garrard, Roy. “U.S. Education Datasets: Unification Project.” Kaggle, 13 Apr. 2020, https://www.kaggle.com/noriuk/us-education-datasets-unification-project.
 
