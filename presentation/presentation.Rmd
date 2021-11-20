@@ -22,8 +22,8 @@ library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
 
-#install.packages("maps")
-#install.packages("corrplot")
+install.packages("maps")
+install.packages("corrplot")
 
 library(maps)
 library(ggplot2)
@@ -43,7 +43,6 @@ library(leafsync) ## For placing plots side by side
 library(kableExtra) ## Table output
 #install.packages("geojsonio")
 #install.packages("rgdal")
-=======
 #install.packages("leaflet")
 library(leaflet)
 #install.packages("geojsonio")
@@ -52,7 +51,6 @@ library(sf)
 library(leaflet)
 #install.packages("sf")
 library(RColorBrewer)
->>>>>>> bd6cad36e98e72c760f3f708df3ad70336c1b7c2
 ```
 
 
