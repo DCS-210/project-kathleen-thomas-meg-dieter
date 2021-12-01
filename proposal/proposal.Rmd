@@ -1,65 +1,65 @@
 ---
-title: "Proposal Doc"
+title: "Project Proposal"
 name: "Thomas, Kathleen, Dieter, Meg"
 date: "10/10/2021"
 output: html_document
 ---
 
 ## Introduction 
-To visualize the effects of socioeconomic circumstance on American lives, we are exploring the relationship between life expectancy and high school graduation by state. A study from the Journal of Health and Social Behavior establishes that there is a clear correlation between a few socioeconomic factors and mortality, education is one factor that shows a particularly strong correlation (Phelan, Jo C., et al). We intend to explore and display this relationship by state, while considering the factor of racial background in some of our visuals. Our life expectancy data was collected by the Centers for Disease Control and Prevention, and our high school graduation rate data was collected by the National Center for Education Statistics. To narrow down our data, we will be exploring the data collected by these organizations from the year 2015.
 
-The CDC collected this life expectancy data using a methodology designed for this particular project. There are three phases to this methodology, as described in "U.S. Small-area Life Expectancy Estimates Project: Methodology and Results Summary". Phase 1 entailed estimating death rates for census tracts with minimum pooled population sizes of 5,000 people, between the years of 2010 to 2015. Tracts with "acceptable" schedules of mortality were used to supplement tracts with age-specific death counts missing. Phase 2, the researchers used zero-truncated Poisson and negative binomial models and fit them to Phase 1 model tracts, resulting in model parameter estimates that they then used to predict age-specific death rates. Missing observed death rates due to lack of death counts were replaced with predicted values by combining demographic, socioeconomic, and geographic factors. In Phase 3, abridged life tables were calculated from the tracts. These tables include complete age-specific death counts (observed or predicted), along with age patters of mortality. These tables were then reviewed for reliability using a variety of statistical and demographic techniques. 
+  In this project, we aim to gauge the relationship between state revenue, education expenditure, and standardized test scores. We plan to narrow in on states and cities that present unique or helpful information, as well as the different kinds of expenditure used to support school systems and students. Our dataset is from Kaggle, titled "U.S. Education Datasets: Unification Project. This dataset is a compilation of K-12 financial data, enrollment, and achievement sourced from the U.S. Census Bureau, the National Center for Education Statistics, and The Nation's Report Card. The cases in this dataset are the students whose standardized test scores are being recorded, this data is collected annually by school districts nationwide and communicated to state and national education bureaus to keep track of yearly academic progress and shortcomings. 
 
-The National Center for Education and Statistics does not provide details regarding how they collected the data for this particular survey, but they do provide a manual containing their strict overarching guidelines that apply to each of their surveys. These standards aim to maintain the quality of the data being collected, the efficiency of sampling frames that are being reused in different projects, and ensure that response rates are high, and the privacy of survey participants is ensured at all times. The link to this guide can be found below:
-https://nces.ed.gov/statprog/2012/pdf/Chapter3.pdf
-
-
+  The contextual variables involved in this dataset are the state the data pertains to, the year it was collected, and the number of kids enrolled in K-12 schooling in the given state. The revenue related variables include the state's total revenue (summary of federal, local, and state revenues), as well as individual variables for the state's federal revenue, the state's revenue, and the state's local revenue. Expenditure variables include instruction expenditure, support services expenditure, capital outlay expenditure, and other expenditure. We will be analyzing a few of these different kinds of spending in hopes of finding a specific kind of expenditure that proves to be more helpful in raising test scores. The assessment related variables come from results of the annually administered National Exam of Educational Progress. These include mean scores of 4th grade math tests, 8th grade math tests, 4 grade reading tests, and 8th grade reading tests. 
 
 
 ## Data Set Overview
-NOTE: The 4-year ACGR is the number of students who graduate in 4 years with a regular high school diploma divided by the number of students who form the adjusted cohort for the graduating class. From the beginning of 9th grade (or the earliest high school grade), students who are entering that grade for the first time form a cohort that is “adjusted” by adding any students who subsequently transfer into the cohort and subtracting any students who subsequently transfer out, emigrate to another country, or die. There are some differences in how states implemented the requirements for the ACGR, leading to the potential for differences across states in how the rates are calculated.  This is particularly applicable to the population of children with disabilities. Black includes African American, Hispanic includes Latino, Asian/Pacific Islander includes Native Hawaiian or Other Pacific Islander, and American Indian includes Alaska Native. Race categories exclude Hispanic origin unless specified. Variances of +/- 5% from year-to-year for any subgroup over 50 in cohort size were addressed with states through ED’s Coordinated Data Quality Review. With one exception, West Virginia, states provided explanations for the increase/decrease. The state comment was not accepted by the data steward (OESE) for California, Illinois, Louisiana, New Mexico, Texas, Utah and the District of Columbia. Those seven states and West Virginia received a letter from OESE to the state’s Chief State School Officer outlining data quality concerns that are expected to be addressed in future submissions.
-
-
-Data for Asian, Hawaiian Native/Pacific Islander, and Two or more races students are being published by NCES for the first time in school year 2015–16.  Not all states report using all of the additional subgroups.  Subgroups that are not reported by a state appear as “– Not Available”. California and Utah report using the additional racial subgroup “FILIPINO”.  The cohort and resulting rate for the “Native Hawaiian/Pacific Islander” in California and Utah include students reported using the “FILIPINO” category.
 
 ```{r}
 #install.packages("dplyr")
 library(tidyverse)
+library(tidymodels)
+library(palmerpenguins)
+library(knitr)
 ```
 
 ```{r}
-USA <- read_csv('Data/US_A.CSV')
-NCES_DATA <- read_csv('Data/NCES Cleaned - 2015-16 ACGR.csv')
-glimpse(USA)
-glimpse(NCES_DATA)
+glimpse(states_all)
 ```
 
+
+## Data Analysis Plan
+
+  The goal of our data analysis project to analyze the relationship between state expenditure and average test scores in the U.S. by analyzing the correlation between several different facets of U.S. education included in our data set. Within our data analysis, we will be using total expenditure per state as our explanatory variable and average test scores as our response variable. We will be using a variety of statistical methods to visualize the relationships between our data including correlation matrices, scatter plots with layered linear regressions, and maps. The statistical analysis that we run will hopefully give insight into the relationship between expenditure, revenue, and standardized test scores in the United States. 
+  Our hypothesis is that there will be a positive correlation between expenditures or revenues and average test scores, as seen by an increase in expenditure or revenue correlated with a direct increase in average test scores. The correlation matrix will allow us to determine the correlation coefficients between the variables in our data set, which will give insight as to which variables are positively or negatively correlated. We will then take a closer look to some specific states that were highest and lowest on the average grade spectrum to see how specific facets of the total expenditure were different. This will allow us to analyze if specific aspects of total expenditure affect average grades more than others do. Our correlation matrix below shows that there are no perfect linear correlations between expenditures/revenues and test scores. We hope to find other possible relationships between the variables that provide insight into this data, possibly utilizing data specific to certain states and locations.
+  
+```{r, echo = FALSE}
+test_data <- data_set[,c(5,6,7,8,9,10,11,21,22,23)]
+res <- cor(test_data, use = "complete.obs")
+#round(res, 2)
+```
+  
+```{r, echo = FALSE}
+corrplot(res, type = "upper", order = "hclust", 
+         tl.col = "black", tl.srt = 45, tl.cex = .6)
+```
+  
+  Our plot below of the state average reading scores by year gives us an idea how where states fall in literacy success, which we will explore further by narrowing in on certain locations with higher and lower scores, utilizing expenditure and revenue to find a correlation to academic success. The yellow dots along the bottom of the graph represent Washington D.C., which is a city we will be looking into further in hopes of understanding why the city's reading scores are consistently lower than other locations. 
+  
+  
+```{r echo = FALSE, warning = FALSE}
+ggplot(data = data_set, mapping = aes(x = YEAR, y = AVG_READING_8_SCORE, color = STATE)) +
+  geom_point() + 
+  labs(title = 'State Average Reading Scores by Year', x = 'Year', y = 'Average 8th Grade Reading Score') + 
+  theme(legend.title = element_text(size = 3), 
+               legend.text = element_text(size = 3))
+```
+ 
+ 
+  Two maps will be created displaying total expenditure per student and average test scores in the United States. These maps will provide a useful visualization of the distribution of the two main variables we are comparing in our data analysis, and can be used to further explain some of the linear correlations that were determined in the correlation matrix. In order to support our hypothesis that total expenditure and average test score have a positive linear correlation, we should be able to see a positive linear correlation in the correlation matrix, a positive linear relationship in the plots of total expenditure vs. average grade scores, and a positive correlation between the 2 variables as shown on the maps. 
+
+  The conclusions we are able to draw from our data analysis will also provide insight into future data analysis that is needed to conduct a more holistic analysis of the ways in which student performance and average grades are affected, apart from total state expenditure alone. 
 
 ## Works Cited
 
-Arias, E, et al. U.S. Small-Area Life Expectancy Estimates Project :     Methodology and Results Summary. National Center for Health          Statistics, Sept. 2018.   https://www.cdc.gov/nchs/data/series/sr_02/sr02_181.pdf. 
-
-Phelan, Jo C., et al. “‘Fundamental Causes’ of Social Inequalities in     Mortality: A Test of the Theory.” Journal of Health and Social       Behavior, vol. 45, no. 3, Sept. 2004, pp. 265–285,                   doi:10.1177/002214650404500303.
-
-
-
-
-
-```{r}
-paste('The dataset USA contains', NROW(USA), 'observations, and', NCOL(USA), 'variables. Our other dataset, NCES data contains',NROW(NCES_DATA), 'observations, and', NCOL(NCES_DATA), 'variables.')
-```
-
-## Data Analysis Plan
-```{r}
-state <- USA$STATE2KX
-life_expect <- USA$`e(0)`
-aggregate(life_expect,list(state), mean) # mean life expectancy per state
-```
-
-Within our data analysis, we will be using the high school graduation rate will be our explanatory variable and life expectancy will be our response variable. We will also be analyzing how data collected pertaining to different racial groups provides more insight into how populations are effected in different levels of severity. We will be using a variety of statistical methods to visualize this data including scatter plots with layered linear regressions, bar plots, and correlation matrices. This methods will helps us visualize the data and allow us to see any trends or other important information. We also hope to use the map functions within ggplot2 to provide geographic visualizations of the data we collect, which may result in conclusions about different regions of the United States. These statistical methods will ideally result in a clear correlation between the life expectancy and high school graduation rate in these states.
-
-```{r}
-
-```
-
+Garrard, Roy. “U.S. Education Datasets: Unification Project.” Kaggle, 13 Apr. 2020, https://www.kaggle.com/noriuk/us-education-datasets-unification-project.
 
