@@ -16,20 +16,20 @@ output:
 
 ```{r load-packages, include = FALSE}
 # Add any additional packages you need to this chunk
+#install.packages("xaringanthemer")
 library(tidyverse)
 library(tidymodels)
-library(palmerpenguins)
+#library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
 
-install.packages("maps")
-install.packages("corrplot")
+#install.packages("maps")
+#install.packages("corrplot")
 
 library(maps)
 library(ggplot2)
 library(tidyverse)
 library(corrplot)
-<<<<<<< HEAD
 library(dplyr)
 #library(dsbox)
 library(skimr)
@@ -102,19 +102,19 @@ class: inverse, center, middle
 
 ---
 # Correlation Matrix
-.pull-left[
+
 ```{r, echo = FALSE}
 test_data <- data_set[,c(5,6,7,8,9,10,11,21,22,23)]
 res <- cor(test_data, use = "complete.obs")
 #round(res, 2)
 ```
-]
-.pull-right[
+
+
 ```{r, echo = FALSE}
 corrplot(res, type = "upper", order = "hclust", 
          tl.col = "black", tl.srt = 45, tl.cex = .6)
 ```
-]
+
 
 ---
 # How have Test Scores Changed Over the Years?
@@ -128,11 +128,17 @@ Reachers at the Fordham Institue cite three main reasons for their continued use
 ---
 
 ```{r echo = FALSE, warning = FALSE}
-ggplot(data = data_set, mapping = aes(x = YEAR, y = AVG_READING_8_SCORE, color = STATE)) +
-  geom_point() + 
-  labs(title = 'State Average Reading Scores by Year', x = 'Year', y = 'Average 8th Grade Reading Score') + 
-  theme(legend.title = element_text(size = 3), 
-               legend.text = element_text(size = 3))
+constrain_year <- data_set %>%
+    filter(YEAR > 2000)
+
+ggplot(data = constrain_year, mapping = aes(x = YEAR, y = AVG_MATH_8_SCORE, color = case_when(STATE == 'ALABAMA' ~ 'Alabama',
+          STATE == 'MASSACHUSETTS' ~ 'Massachusetts',
+          STATE == 'DISTRICT_OF_COLUMBIA' ~ 'Washington D.C',
+          STATE == 'MAINE' ~ 'Maine',
+          TRUE ~ 'National Average'))) +
+  geom_smooth() + 
+  #geom_smooth(formula = 'y ~ x', method = 'loess')
+  labs(title = 'State Average Reading Scores by Year', x = 'Year', y = 'Average 8th Grade Reading Score', color = 'State') 
 ```
 
 ---
@@ -224,25 +230,15 @@ geom_text(label=data_2015_noDC$STATE, col="magenta", check_overlap = TRUE) +
 
 
 ---
-```{r echo = FALSE, warning = FALSE, message = FALSE}
-#different-expenditures
-ggplot(data = data_set %>% filter(YEAR == 2015)) +
-  geom_point(mapping = aes(x = SUPPORT_SERVICES_EXPENDITURE, 
-                           y = AVG_READING_8_SCORE, 
-                           color = STATE)) + 
-  labs(title = 'Support Services Expenditure and Average 8th Grade Reading Score', x = 'Support Services Expenditure', y = 'Average 8th Grade Reading Score') + 
-  theme(legend.title = element_text(size = 3), 
-               legend.text = element_text(size = 3))
-
-<<<<<<< HEAD
 ```{r alabama-mass-data, echo = FALSE, warning = FALSE}
 AL_MA_data <- data_set %>%
   filter(STATE == c('ALABAMA', 'MASSACHUSETTS'))
 ```
 
+---
 ```{r alabama-mass-revenue, echo = FALSE, warning = FALSE}
-ggplot(data = AL_MA_data) + 
-  geom_line(mapping = aes(x = YEAR, y = STATE_REVENUE, color = STATE)) +
+ggplot(data = AL_MA_data, aes(x = YEAR, y = STATE_REVENUE)) + 
+  geom_line(aes(color = STATE)) +
   labs(
     x = "Year",
     y = "State Revenue",
@@ -250,7 +246,6 @@ ggplot(data = AL_MA_data) +
     subtitle = "Alabama and Massachusetts") +
  guides(col=guide_legend("State"))
 ```
-
 
 ---
 
@@ -259,59 +254,36 @@ AL_MA_SCORE_data <- data_set %>%
   filter(STATE == c('ALABAMA', 'MASSACHUSETTS'))
 ```
 
----
+
+
 ```{r different-expenditures, echo = FALSE, warning = FALSE}
-ggplot(data = data_set %>% filter(YEAR == 2015)) +
-  geom_point(mapping = aes(x = SUPPORT_SERVICES_EXPENDITURE, 
-                           y = AVG_READING_8_SCORE, 
-                           color = STATE)) + 
+data_2015 <- data_set %>%
+  filter(YEAR == 2015)
+
+ggplot(data = data_2015, aes(x = SUPPORT_SERVICES_EXPENDITURE, 
+                           y = AVG_READING_8_SCORE)) +
+  geom_point(mapping = aes(color = STATE)) + 
+  geom_smooth(formula = 'y ~ x', method = 'loess') +
   labs(title = 'Support Services Expenditure and Average 8th Grade Reading Score', x = 'Support Services Expenditure', y = 'Average 8th Grade Reading Score') + 
-  theme(legend.title = element_text(size = 10), 
-               legend.text = element_text(size = 7))
+  theme(legend.title = element_text(size = 3), 
+               legend.text = element_text(size = 3))
 
 ```
 
-```{r instruction-expenditure, echo = FALSE, warning = FALSE}
-ggplot(data = data_set %>% filter(YEAR == 2015)) +
-  geom_point(mapping = aes(x = INSTRUCTION_EXPENDITURE, 
-                           y = AVG_READING_8_SCORE, 
-                           color = STATE)) + 
-  labs(title = 'Instruction Expenditure and Average 8th Grade Reading Score', x = 'Instruction Expenditure', y = 'Average 8th Grade Reading Score') + 
-  theme(legend.title = element_text(size = 10), 
-               legend.text = element_text(size = 7))
-=======
-```
 ---
+
 ```{r echo = FALSE, warning = FALSE, message = FALSE}
 #instruction-expenditure
-ggplot(data = data_set %>% filter(YEAR == 2015)) +
-  geom_point(mapping = aes(x = INSTRUCTION_EXPENDITURE, 
-                           y = AVG_READING_8_SCORE, 
-                           color = STATE)) + 
-  labs(title = 'Instruction Expenditure and Average 8th Grade Reading Score', x = 'Instruction Expenditure', y = 'Average 8th Grade Reading Score') + 
+ggplot(data = data_2015, aes(x = INSTRUCTION_EXPENDITURE, 
+                           y = AVG_READING_8_SCORE)) +
+  geom_point(mapping = aes(color = STATE)) + 
+  geom_smooth(formula = 'y ~ x', method = 'loess') + 
+  labs(title = 'Instruction Expenditure and Average 8th Grade Reading Score', 
+       x = 'Instruction Expenditure', 
+       y = 'Average 8th Grade Reading Score') + 
   theme(legend.title = element_text(size = 3), 
                legend.text = element_text(size = 3))
 ```
-
----
-
-```{r echo = FALSE, warning = FALSE,message=FALSE}
-AL_MA_data <- data_set %>%
-  filter(STATE == c('ALABAMA', 'MASSACHUSETTS'))
-```
-
-```{r echo = FALSE, warning = FALSE, message=FALSE}
-ggplot(data = AL_MA_data) + 
-  geom_line(mapping = aes(x = YEAR, y = STATE_REVENUE, color = STATE)) +
-  labs(
-    x = "Year",
-    y = "State Revenue",
-    title = "State Revenue",
-    subtitle = "Alabama and Massachusetts") +
- guides(col=guide_legend("State"))
->>>>>>> bd6cad36e98e72c760f3f708df3ad70336c1b7c2
-```
-
 
 ---
 
@@ -380,8 +352,6 @@ leaflet() %>%
 
 ---
 
-<<<<<<< HEAD
-=======
 ```{r echo = FALSE}
 
 state_avg_scores <- states_all%>%
@@ -431,6 +401,4 @@ leaflet() %>%
     opacity = 1)
 
 ```
-
->>>>>>> bd6cad36e98e72c760f3f708df3ad70336c1b7c2
 
