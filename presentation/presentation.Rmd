@@ -70,7 +70,6 @@ style_xaringan(
 )
 ```
 
----
 
 class: center, middle
 
@@ -235,7 +234,6 @@ AL_MA_data <- data_set %>%
   filter(STATE == c('ALABAMA', 'MASSACHUSETTS'))
 ```
 
----
 ```{r alabama-mass-revenue, echo = FALSE, warning = FALSE}
 ggplot(data = AL_MA_data, aes(x = YEAR, y = STATE_REVENUE)) + 
   geom_line(aes(color = STATE)) +
@@ -352,10 +350,6 @@ leaflet() %>%
 
 ---
 
-<<<<<<< HEAD
-
-=======
-=======
 
 ```{r echo = FALSE}
 
@@ -407,3 +401,15 @@ leaflet() %>%
 
 ```
 
+---
+
+##Conclusion
+
+- There is a statistically significant correlation between state average test scores and state total expenditure per student in the United States. 
+- The states that displayed the strongest positive correlation between average test scores and total expenditure were Wyoming, Vermont, and New Jersey. 
+
+##Limitations & Future studies
+
+- The constraints in the data set caused limitations in producing an effective analysis of the relationship between state expenditure and average test scores. 
+- Future studies need to be done that more closely examine different factors that drive the differing correlations per region. An analysis on neighborhoods per state regions could be done to investigate the effect of neighborhood demographics, neighborhood average income, and average number of kids per family in each neighborhood in the region on student performance, in order to gain a more comprehensive understanding of factors that affect student performance. 
+---
