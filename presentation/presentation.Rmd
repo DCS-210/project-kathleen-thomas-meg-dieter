@@ -13,9 +13,9 @@ output:
       highlightLines: true
       countIncrementalSlides: false
 ---
-
 ```{r load-packages, include = FALSE}
 # Add any additional packages you need to this chunk
+
 library(tidyverse)
 library(tidymodels)
 library(palmerpenguins)
@@ -29,7 +29,7 @@ library(maps)
 library(ggplot2)
 library(tidyverse)
 library(corrplot)
-<<<<<<< HEAD
+
 library(dplyr)
 #library(dsbox)
 library(skimr)
@@ -380,7 +380,7 @@ leaflet() %>%
 
 ---
 
-<<<<<<< HEAD
+
 =======
 ```{r echo = FALSE}
 
@@ -432,5 +432,5 @@ leaflet() %>%
 
 ```
 
->>>>>>> bd6cad36e98e72c760f3f708df3ad70336c1b7c2
+
 
