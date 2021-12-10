@@ -271,16 +271,13 @@ ggplot(data = data_2015, aes(x = SUPPORT_SERVICES_EXPENDITURE,
 ---
 
 ```{r echo = FALSE, warning = FALSE, message = FALSE}
-#instruction-expenditure
-ggplot(data = data_2015, aes(x = INSTRUCTION_EXPENDITURE, 
-                           y = AVG_READING_8_SCORE)) +
-  geom_point(mapping = aes(color = STATE)) + 
-  geom_smooth(formula = 'y ~ x', method = 'loess') + 
+
+ggplot(data = data_2015, aes(x = INSTRUCTION_EXPENDITURE, y=AVG_READING_8_SCORE)) + 
+  geom_violin(trim=FALSE)
   labs(title = 'Instruction Expenditure and Average 8th Grade Reading Score', 
        x = 'Instruction Expenditure', 
-       y = 'Average 8th Grade Reading Score') + 
-  theme(legend.title = element_text(size = 3), 
-               legend.text = element_text(size = 3))
+       y = 'Average 8th Grade Reading Score')
+
 ```
 
 ---
